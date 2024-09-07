@@ -7,10 +7,19 @@ body {
 }
 
 header {
-    background-color: #333;
+    background-color: #87CEEB; /* Sky Blue */
     color: #fff;
     padding: 1rem;
     text-align: center;
+}
+
+header a {
+    color: #fff;
+    text-decoration: underline;
+}
+
+header a:hover {
+    color: #333; /* Change link color on hover for better contrast */
 }
 
 nav ul {
@@ -40,11 +49,20 @@ h1, h2, h3 {
 footer {
     text-align: center;
     padding: 1rem;
-    background-color: #333;
+    background-color: #87CEEB; /* Sky Blue */
     color: #fff;
     position: fixed;
     width: 100%;
     bottom: 0;
+}
+
+footer a {
+    color: #fff;
+    text-decoration: underline;
+}
+
+footer a:hover {
+    color: #333; /* Change link color on hover for better contrast */
 }
 
 a {
