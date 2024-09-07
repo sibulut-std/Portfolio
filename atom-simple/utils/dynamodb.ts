@@ -2,16 +2,16 @@ import { DynamoDBClient } from '@aws-sdk/client-dynamodb'
 import { DynamoDBDocumentClient, GetCommand, PutCommand } from '@aws-sdk/lib-dynamodb'
 
 const client = new DynamoDBClient({
-  region: 'YOUR_AWS_REGION',
+  region: 'us-west-1',
   credentials: {
-    accessKeyId: 'YOUR_ACCESS_KEY_ID',
-    secretAccessKey: 'YOUR_SECRET_ACCESS_KEY',
+    accessKeyId: 'AKIASNXG6I6CDXJ2Y7PQ',
+    secretAccessKey: 'vaPRtP0raJMG8icKioC7FVx55N+uRwjHRaMSVxNS',
   },
 })
 
 const docClient = DynamoDBDocumentClient.from(client)
 
-const TABLE_NAME = 'YOUR_DYNAMODB_TABLE_NAME'
+const TABLE_NAME = 'atom-simple-webapp-table'
 
 export async function getUserMetadata(userId: string) {
   const command = new GetCommand({
