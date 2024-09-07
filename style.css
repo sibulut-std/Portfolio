@@ -50,3 +50,9 @@ footer {
 a {
     color: #0066cc;
 }
+
+.wrapper {
+    width: 60%; /* Make the content area 60% of the viewport width */
+    margin: 0 auto; /* Center the content */
+    padding: 0 1rem; /* Add some padding on the sides */
+}
