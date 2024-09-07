@@ -2,10 +2,10 @@ import { Amplify, Auth } from '@aws-amplify/auth'
 
 Amplify.configure({
   Auth: {
-    region: 'YOUR_AWS_REGION',
-    userPoolId: 'YOUR_USER_POOL_ID',
-    userPoolWebClientId: 'YOUR_USER_POOL_WEB_CLIENT_ID',
-    identityPoolId: 'YOUR_IDENTITY_POOL_ID',
+    region: 'us-west-1',
+    userPoolId: 'us-west-1_JFYogeWyV',
+    userPoolWebClientId: '4tu1jhb0bo762g1k5ra5l1e40p',
+    identityPoolId: 'us-west-1:f321bc60-ae42-4d1b-a9a1-e684e4bca005',
   },
 })
 
