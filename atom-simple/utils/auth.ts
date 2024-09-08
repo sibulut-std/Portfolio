@@ -1,4 +1,5 @@
-import { Amplify, Auth } from '@aws-amplify/auth'
+// import { Amplify, Auth } from '@aws-amplify/auth'
+import { Auth } from 'aws-amplify';
 
 Amplify.configure({
   Auth: {

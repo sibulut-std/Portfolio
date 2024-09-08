@@ -16,14 +16,14 @@ const videos = [
 // Define types for user and metadata
 type User = {
   username: string;
-  [key: string]: any;
+  [key: string]: string;
 }
 
 type Metadata = {
   videosWatched?: number[];
   totalVideosWatched?: number;
   videoRatings?: Record<number, number>;
-  [key: string]: any;
+  [key: string]: string;
 }
 
 export default function Videos() {
