@@ -23,8 +23,8 @@ type Metadata = {
   videosWatched?: number[];
   totalVideosWatched?: number;
   videoRatings?: Record<number, number>;
-  [key: string]: string;
-}
+  [key: string]: number | number[]; // Allow both numbers and arrays of numbers
+};
 
 export default function Videos() {
   const [user, setUser] = useState<User | null>(null)
