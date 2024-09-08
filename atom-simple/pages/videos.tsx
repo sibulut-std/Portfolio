@@ -6,15 +6,29 @@ import Layout from '../components/Layout'
 import { getCurrentUser } from '../utils/auth'
 import { getUserMetadata, updateUserMetadata } from '../utils/dynamodb'
 
+// Define the video object structure
 const videos = [
-  { id: 1, title: 'Video 1', url: 'https://example.com/video1' },
-  { id: 2, title: 'Video 2', url: 'https://example.com/video2' },
-  { id: 3, title: 'Video 3', url: 'https://example.com/video3' },
+  { id: 1, title: 'Video 1', url: 'https://www.youtube.com/watch?v=vhb7B3i4r0k' },
+  { id: 2, title: 'Video 2', url: 'https://www.youtube.com/watch?v=vhb7B3i4r0k' },
+  { id: 3, title: 'Video 3', url: 'https://www.youtube.com/watch?v=vhb7B3i4r0k' },
 ]
 
+// Define types for user and metadata
+type User = {
+  username: string;
+  [key: string]: any;
+}
+
+type Metadata = {
+  videosWatched?: number[];
+  totalVideosWatched?: number;
+  videoRatings?: Record<number, number>;
+  [key: string]: any;
+}
+
 export default function Videos() {
-  const [user, setUser] = useState(null)
-  const [metadata, setMetadata] = useState(null)
+  const [user, setUser] = useState<User | null>(null)
+  const [metadata, setMetadata] = useState<Metadata | null>(null)
   const router = useRouter()
 
   useEffect(() => {
@@ -31,22 +45,24 @@ export default function Videos() {
     checkAuth()
   }, [router])
 
-  const handleWatchVideo = async (videoId) => {
+  const handleWatchVideo = async (videoId: number) => {
+    if (!metadata) return;
     const updatedMetadata = {
       ...metadata,
       videosWatched: [...(metadata.videosWatched || []), videoId],
       totalVideosWatched: (metadata.totalVideosWatched || 0) + 1,
     }
-    await updateUserMetadata(user.username, updatedMetadata)
+    await updateUserMetadata(user?.username || '', updatedMetadata)
     setMetadata(updatedMetadata)
   }
 
-  const handleRateVideo = async (videoId, rating) => {
+  const handleRateVideo = async (videoId: number, rating: number) => {
+    if (!metadata) return;
     const updatedMetadata = {
       ...metadata,
       videoRatings: { ...(metadata.videoRatings || {}), [videoId]: rating },
     }
-    await updateUserMetadata(user.username, updatedMetadata)
+    await updateUserMetadata(user?.username || '', updatedMetadata)
     setMetadata(updatedMetadata)
   }
 
