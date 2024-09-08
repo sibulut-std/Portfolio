@@ -22,7 +22,7 @@ type User = {
 type Metadata = {
   videosWatched?: number[];
   totalVideosWatched?: number;
-  videoRatings?: Record<number, number>;
+  // videoRatings?: Record<number, number>;  // Commented out temporarily
   [key: string]: number | number[] | undefined; // Allow both numbers and arrays of numbers and also undefined
 };
 
