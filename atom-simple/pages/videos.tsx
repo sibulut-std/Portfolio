@@ -60,7 +60,7 @@ export default function Videos() {
     if (!metadata) return;
     const updatedMetadata = {
       ...metadata,
-      videoRatings: metadata?.videoRatings && typeof metadata.videoRatings === 'object' && !Array.isArray(metadata.videoRatings)
+      videoRatings: metadata && typeof metadata.videoRatings === 'object' && !Array.isArray(metadata.videoRatings)
       ? { ...metadata.videoRatings, [videoId]: rating }
       : { [videoId]: rating },
   };
