@@ -19,12 +19,12 @@ type User = {
   [key: string]: string;
 }
 
-type Metadata = {
-  videosWatched?: number[];
-  totalVideosWatched?: number;
-  // videoRatings?: Record<number, number>;  // Commented out temporarily
-  [key: string]: number | number[] | undefined; // Allow both numbers and arrays of numbers and also undefined
-};
+// type Metadata = {
+//  videosWatched?: number[];
+//  totalVideosWatched?: number;
+//  videoRatings?: Record<number, number>;  // Commented out temporarily
+//  [key: string]: number | number[] | undefined; // Allow both numbers and arrays of numbers and also undefined
+//};
 
 export default function Videos() {
   const [user, setUser] = useState<User | null>(null)
