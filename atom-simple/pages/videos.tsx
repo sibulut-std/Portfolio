@@ -23,7 +23,7 @@ type Metadata = {
   videosWatched?: number[];
   totalVideosWatched?: number;
   videoRatings?: Record<number, number>;
-  [key: string]: number | number[]; // Allow both numbers and arrays of numbers
+  [key: string]: number | number[] | undefined; // Allow both numbers and arrays of numbers and also undefined
 };
 
 export default function Videos() {
