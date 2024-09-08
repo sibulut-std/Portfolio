@@ -60,7 +60,7 @@ export default function Videos() {
     if (!metadata) return;
     const updatedMetadata = {
       ...metadata,
-      videoRatings: { ...(metadata.videoRatings || {}), [videoId]: rating },
+      videoRatings: { ...(metadata.videoRatings ?? {}), [videoId]: rating },
     }
     await updateUserMetadata(user?.username || '', updatedMetadata)
     setMetadata(updatedMetadata)
