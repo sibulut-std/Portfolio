@@ -1,4 +1,5 @@
-import { Amplify, Auth } from 'aws-amplify';
+import { Amplify } from 'aws-amplify';
+import { signUp, signIn, signOut, getCurrentUser } from 'aws-amplify/auth';
 
 Amplify.configure({
   Auth: {
@@ -9,9 +10,9 @@ Amplify.configure({
   },
 });
 
-export async function signUp(email: string, password: string) {
+export async function signUpUser(email: string, password: string) {
   try {
-    const { user } = await Auth.signUp({
+    const { user } = await signUp({
       username: email,
       password,
     });
@@ -22,9 +23,9 @@ export async function signUp(email: string, password: string) {
   }
 }
 
-export async function signIn(email: string, password: string) {
+export async function signInUser(email: string, password: string) {
   try {
-    const user = await Auth.signIn(email, password);
+    const user = await signIn({ username: email, password });
     return user;
   } catch (error) {
     console.error('Error signing in:', error);
@@ -32,18 +33,18 @@ export async function signIn(email: string, password: string) {
   }
 }
 
-export async function signOut() {
+export async function signOutUser() {
   try {
-    await Auth.signOut();
+    await signOut();
   } catch (error) {
     console.error('Error signing out:', error);
     throw error;
   }
 }
 
-export async function getCurrentUser() {
+export async function getCurrentAuthenticatedUser() {
   try {
-    const user = await Auth.currentAuthenticatedUser();
+    const user = await getCurrentUser();
     return user;
   } catch (error) {
     console.error('Error getting current user:', error);

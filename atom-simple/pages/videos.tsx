@@ -3,40 +3,31 @@
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import Layout from '../components/Layout'
-import { getCurrentUser } from '../utils/auth'
-import { getUserMetadata, updateUserMetadata } from '../utils/dynamodb'
+import { getCurrentAuthenticatedUser } from '../utils/auth'
+import { getUserMetadata, updateUserMetadata, UserMetadata } from '../utils/dynamodb'
 
-// Define the video object structure
 const videos = [
   { id: 1, title: 'Video 1', url: 'https://www.youtube.com/watch?v=vhb7B3i4r0k' },
   { id: 2, title: 'Video 2', url: 'https://www.youtube.com/watch?v=vhb7B3i4r0k' },
   { id: 3, title: 'Video 3', url: 'https://www.youtube.com/watch?v=vhb7B3i4r0k' },
 ]
 
-// Define types for user and metadata
 type User = {
   username: string;
-  // Add other specific user properties here if needed
-}
-
-type Metadata = {
-  videosWatched: number[];
-  totalVideosWatched: number;
-  videoRatings: Record<number, number>;
 }
 
 export default function Videos() {
   const [user, setUser] = useState<User | null>(null)
-  const [metadata, setMetadata] = useState<Metadata | null>(null)
+  const [metadata, setMetadata] = useState<UserMetadata | null>(null)
   const router = useRouter()
 
   useEffect(() => {
     const checkAuth = async () => {
       try {
-        const currentUser = await getCurrentUser()
-        setUser(currentUser as User)
+        const currentUser = await getCurrentAuthenticatedUser()
+        setUser({ username: currentUser.username })
         const userMetadata = await getUserMetadata(currentUser.username)
-        setMetadata(userMetadata as Metadata)
+        setMetadata(userMetadata)
       } catch (error) {
         router.push('/auth')
       }
@@ -46,7 +37,7 @@ export default function Videos() {
 
   const handleWatchVideo = async (videoId: number) => {
     if (!user || !metadata) return;
-    const updatedMetadata: Metadata = {
+    const updatedMetadata: UserMetadata = {
       ...metadata,
       videosWatched: [...metadata.videosWatched, videoId],
       totalVideosWatched: metadata.totalVideosWatched + 1,
@@ -57,7 +48,7 @@ export default function Videos() {
 
   const handleRateVideo = async (videoId: number, rating: number) => {
     if (!user || !metadata) return;
-    const updatedMetadata: Metadata = {
+    const updatedMetadata: UserMetadata = {
       ...metadata,
       videoRatings: { ...metadata.videoRatings, [videoId]: rating },
     }
