@@ -14,11 +14,11 @@ Amplify.configure({
 
 export async function signUp(email: string, password: string) {
   try {
-    const { user } = await amplifySignUp({
+    const result = await amplifySignUp({
       username: email,
       password,
     });
-    return user;
+    return result;
   } catch (error) {
     console.error('Error signing up:', error);
     throw error;
