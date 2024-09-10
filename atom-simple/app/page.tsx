@@ -6,7 +6,7 @@ export default function Home() {
     <div className="grid grid-rows-[auto_1fr_auto] min-h-screen p-8 pb-20 gap-16 sm:p-20 font-sans">
       <header className="text-center">
         <h1 className="text-4xl font-bold mb-4">Welcome to Atom Simple</h1>
-        <p className="text-xl">Your Next.js application for video content</p>
+        <p className="text-xl">Your Next.js application for interactive story books.</p>
       </header>
 
       <main className="flex flex-col gap-8 items-center justify-center">

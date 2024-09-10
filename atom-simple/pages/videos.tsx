@@ -62,39 +62,41 @@ export default function Videos() {
 
   return (
     <Layout>
-      <div className="container mx-auto px-4 py-8">
-        <h1 className="text-3xl font-bold mb-4">Videos</h1>
-        <p className="mb-4">Total videos watched: {metadata.totalVideosWatched}</p>
-        <div className="space-y-4">
-          {videos.map((video) => (
-            <div key={video.id} className="border p-4 rounded shadow-md">
-              <h2 className="text-xl font-bold mb-2">{video.title}</h2>
-              <button
-                onClick={() => handleWatchVideo(video.id)}
-                className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded transition duration-300 ease-in-out"
-              >
-                Watch Video
-              </button>
-              <div className="mt-4">
-                <p className="mb-2">Rate this video:</p>
-                <div className="flex space-x-2">
-                  {[1, 2, 3, 4, 5].map((rating) => (
-                    <button
-                      key={rating}
-                      onClick={() => handleRateVideo(video.id, rating)}
-                      className={`px-3 py-1 rounded ${
-                        metadata.videoRatings[video.id] === rating
-                          ? 'bg-yellow-500 text-white'
-                          : 'bg-gray-200 hover:bg-gray-300'
-                      } transition duration-300 ease-in-out`}
-                    >
-                      {rating}
-                    </button>
-                  ))}
+      <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-2xl w-full space-y-8">
+          <h1 className="text-3xl font-bold mb-4 text-center">Videos</h1>
+          <p className="mb-4 text-center">Total videos watched: {metadata.totalVideosWatched}</p>
+          <div className="space-y-4">
+            {videos.map((video) => (
+              <div key={video.id} className="border p-4 rounded shadow-md">
+                <h2 className="text-xl font-bold mb-2">{video.title}</h2>
+                <button
+                  onClick={() => handleWatchVideo(video.id)}
+                  className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded transition duration-300 ease-in-out"
+                >
+                  Watch Video
+                </button>
+                <div className="mt-4">
+                  <p className="mb-2">Rate this video:</p>
+                  <div className="flex space-x-2">
+                    {[1, 2, 3, 4, 5].map((rating) => (
+                      <button
+                        key={rating}
+                        onClick={() => handleRateVideo(video.id, rating)}
+                        className={`px-3 py-1 rounded ${
+                          metadata.videoRatings[video.id] === rating
+                            ? 'bg-yellow-500 text-white'
+                            : 'bg-gray-200 hover:bg-gray-300'
+                        } transition duration-300 ease-in-out`}
+                      >
+                        {rating}
+                      </button>
+                    ))}
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </div>
     </Layout>
