@@ -1,5 +1,5 @@
-import { DynamoDBClient } from '@aws-sdk/client-dynamodb'
-import { DynamoDBDocumentClient, GetCommand, PutCommand } from '@aws-sdk/lib-dynamodb'
+import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
+import { DynamoDBDocumentClient, GetCommand, PutCommand } from '@aws-sdk/lib-dynamodb';
 
 const client = new DynamoDBClient({
   region: 'us-west-1',
@@ -7,40 +7,52 @@ const client = new DynamoDBClient({
     accessKeyId: 'AKIASNXG6I6CDXJ2Y7PQ',
     secretAccessKey: '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',
   },
-})
+});
 
-const docClient = DynamoDBDocumentClient.from(client)
+const docClient = DynamoDBDocumentClient.from(client);
 
-const TABLE_NAME = 'atom-simple-webapp-table'
+const TABLE_NAME = 'atom-simple-webapp-table';
 
-export async function getUserMetadata(userId: string) {
+export type UserMetadata = {
+  userId: string;
+  videosWatched: number[];
+  totalVideosWatched: number;
+  videoRatings: Record<number, number>;
+};
+
+export async function getUserMetadata(userId: string): Promise<UserMetadata> {
   const command = new GetCommand({
     TableName: TABLE_NAME,
     Key: { userId },
-  })
+  });
 
   try {
-    const response = await docClient.send(command)
-    return response.Item || { userId, videosWatched: [], totalVideosWatched: 0, videoRatings: {} }
+    const response = await docClient.send(command);
+    return response.Item as UserMetadata || {
+      userId,
+      videosWatched: [],
+      totalVideosWatched: 0,
+      videoRatings: {},
+    };
   } catch (error) {
-    console.error('Error getting user metadata:', error)
-    throw error
+    console.error('Error getting user metadata:', error);
+    throw error;
   }
 }
 
-export async function updateUserMetadata(userId: string, metadata: any) {
+export async function updateUserMetadata(userId: string, metadata: Partial<UserMetadata>) {
   const command = new PutCommand({
     TableName: TABLE_NAME,
     Item: {
       userId,
       ...metadata,
     },
-  })
+  });
 
   try {
-    await docClient.send(command)
+    await docClient.send(command);
   } catch (error) {
-    console.error('Error updating user metadata:', error)
-    throw error
+    console.error('Error updating user metadata:', error);
+    throw error;
   }
 }
