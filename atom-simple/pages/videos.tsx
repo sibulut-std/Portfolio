@@ -16,7 +16,7 @@ const videos = [
 // Define types for user and metadata
 type User = {
   username: string;
-  [key: string]: any;
+  // Add other specific user properties here if needed
 }
 
 type Metadata = {
@@ -34,7 +34,7 @@ export default function Videos() {
     const checkAuth = async () => {
       try {
         const currentUser = await getCurrentUser()
-        setUser(currentUser)
+        setUser(currentUser as User)
         const userMetadata = await getUserMetadata(currentUser.username)
         setMetadata(userMetadata as Metadata)
       } catch (error) {
