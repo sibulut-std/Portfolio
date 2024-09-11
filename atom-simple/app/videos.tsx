@@ -1,8 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { useRouter } from 'next/router'
-import RootLayout from './layout'
+import { useRouter } from 'next/navigation'
 import { getCurrentAuthenticatedUser } from '../utils/auth'
 import { getUserMetadata, updateUserMetadata, UserMetadata } from '../utils/dynamodb';
 
@@ -61,7 +60,6 @@ export default function Videos() {
   }
 
   return (
-    <RootLayout>
       <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
         <div className="max-w-2xl w-full space-y-8">
           <h1 className="text-3xl font-bold mb-4 text-center">Videos</h1>
@@ -99,6 +97,5 @@ export default function Videos() {
           </div>
         </div>
       </div>
-    </RootLayout>
   )
 }
