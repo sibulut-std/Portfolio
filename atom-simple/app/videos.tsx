@@ -3,7 +3,6 @@
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import RootLayout from './layout'
-import Sign from './sign'
 import { getCurrentAuthenticatedUser } from '../utils/auth'
 import { getUserMetadata, updateUserMetadata, UserMetadata } from '../utils/dynamodb';
 
