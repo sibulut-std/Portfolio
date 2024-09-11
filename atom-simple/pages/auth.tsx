@@ -33,8 +33,8 @@ export default function Auth() {
 
   return (
     <Layout>
-      <div className="min-h-screen flex items-center justify-center bg-gray-100 py-12 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-md w-full space-y-8 bg-white p-10 rounded-lg shadow-md">
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 py-12 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-md w-full space-y-8 bg-white p-10 rounded-lg shadow-lg">
           <div>
             <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
               {isSignUp ? 'Create an account' : 'Sign in to your account'}
