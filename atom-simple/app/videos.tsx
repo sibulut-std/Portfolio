@@ -56,7 +56,7 @@ export default function Videos() {
   }
 
   if (!user || !metadata) {
-    return <RootLayout>Loading...</RootLayout>
+    return <div>Loading...</div>
   }
 
   return (
