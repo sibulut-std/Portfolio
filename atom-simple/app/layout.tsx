@@ -26,7 +26,7 @@ export default function RootLayout({
             {children}
           </main>
           <footer className="bg-gray-200 p-4 text-center">
-            © {new Date().getFullYear()} All rights reserved.
+            © {new Date().getFullYear()} All rights XLAYOUTX reserved.
           </footer>
         </div>
       </body>

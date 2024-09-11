@@ -56,9 +56,6 @@ export default function Home() {
           <Link href="/privacy" className="hover:underline">
             Privacy Policy
           </Link>
-          <div className="w-full text-center mt-4">
-            © {new Date().getFullYear()} All rights reserved.
-          </div>
         </footer>
       </div>
     </RootLayout>
