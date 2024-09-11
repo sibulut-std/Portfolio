@@ -14,7 +14,7 @@ export default function Home() {
         <main className="flex flex-col gap-8 items-center justify-center">
           <Image
             src="/atombooks_logo.svg"
-            alt="Atombooks logo"
+            alt="Atombooks Logo"
             width={180}
             height={180}
             priority
