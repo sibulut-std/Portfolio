@@ -18,7 +18,7 @@ export default function RootLayout({
               <div className="space-x-4">
                 <Link href="/">Home</Link>
                 <Link href="/videos">Videos</Link>
-                <Link href="/auth">Sign In</Link>
+                <Link href="/sign">Sign In</Link>
               </div>
             </nav>
           </header>
