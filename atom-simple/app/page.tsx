@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import RootLayout from "./layout";
+import atombooksLogo from './atombooks_logo.svg';
 
 export default function Home() {
   return (
@@ -13,7 +14,7 @@ export default function Home() {
 
         <main className="flex flex-col gap-8 items-center justify-center">
           <Image
-            src="/atombooks_logo.svg"
+            src={atombooksLogo} // Use the imported variable instead of a URL
             alt="Atombooks Logo"
             width={180}
             height={180}
