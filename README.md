@@ -8,11 +8,7 @@ I’m Sadik Bulut, an AWS Certified Solution Architect with expertise in deployi
 
 ## Projects
 
-### [AI Chatbot](https://github.com/yourusername/ai-chatbot)
-Developed an intelligent AI chatbot for customer support using AWS Bedrock and large language models.
-
-### [Image Upscaler](https://github.com/yourusername/image-upscaler)
-Created a web app that upscales images and generates downloadable thumbnails stored on Amazon S3.
+Featured projects shared with public.
 
 ## Contact
 
