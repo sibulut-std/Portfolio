@@ -33,8 +33,8 @@ export default function Auth() {
 
   return (
     <Layout>
-      <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-md w-full space-y-8">
+      <div className="min-h-screen flex items-center justify-center bg-gray-100 py-12 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-md w-full space-y-8 bg-white p-10 rounded-lg shadow-md">
           <div>
             <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
               {isSignUp ? 'Create an account' : 'Sign in to your account'}
@@ -43,7 +43,7 @@ export default function Auth() {
           <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
             <input type="hidden" name="remember" defaultValue="true" />
             <div className="rounded-md shadow-sm -space-y-px">
-              <div>
+              <div className="mb-4">
                 <label htmlFor="email-address" className="sr-only">
                   Email address
                 </label>
@@ -59,7 +59,7 @@ export default function Auth() {
                   onChange={(e) => setEmail(e.target.value)}
                 />
               </div>
-              <div>
+              <div className="mb-4">
                 <label htmlFor="password" className="sr-only">
                   Password
                 </label>
@@ -88,7 +88,7 @@ export default function Auth() {
               </button>
             </div>
           </form>
-          <div className="text-center">
+          <div className="text-center mt-4">
             <button
               onClick={() => setIsSignUp(!isSignUp)}
               className="font-medium text-indigo-600 hover:text-indigo-500"
