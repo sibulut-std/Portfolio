@@ -28,7 +28,7 @@ export default function Videos() {
         const userMetadata = await getUserMetadata(currentUser.username)
         setMetadata(userMetadata)
       } catch (error) {
-        router.push('/auth')
+        router.push('/sign')
       }
     }
     checkAuth()
