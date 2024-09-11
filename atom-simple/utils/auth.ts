@@ -30,7 +30,13 @@ export async function signIn(email: string, password: string) {
     return user;
   } catch (error) {
     console.error('Error signing in:', error);
-    throw error;
+    if (error.code === 'NotAuthorizedException') {
+      throw new Error('Incorrect username or password.');
+    } else if (error.code === 'UserNotFoundException') {
+      throw new Error('User does not exist.');
+    } else {
+      throw new Error('Authentication failed. Please try again.');
+    }
   }
 }
 
