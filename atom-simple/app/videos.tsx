@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
-import RootLayout from '../app/layout'
+import RootLayout from './layout'
 import { getCurrentAuthenticatedUser } from '../utils/auth'
 import { getUserMetadata, updateUserMetadata, UserMetadata } from '../utils/dynamodb'
 

@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/router'
-import RootLayout from '../app/layout'
+import RootLayout from './layout'
 import { signIn, signUp } from '../utils/auth'
 
 export default function Auth() {
