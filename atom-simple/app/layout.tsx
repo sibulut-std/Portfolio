@@ -27,14 +27,12 @@ export const viewport: Viewport = {
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-gray-50 text-gray-900 dark:bg-gray-900 dark:text-gray-100`}
-      >
+      <body className="antialiased bg-gray-50 text-gray-900 dark:bg-gray-900 dark:text-gray-100">
         <div className="min-h-screen flex flex-col">
           <header className="bg-white dark:bg-gray-800 shadow-sm">
             <nav className="container mx-auto px-4 py-4">
@@ -46,7 +44,7 @@ export default function RootLayout({
           </main>
           <footer className="bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700">
             <div className="container mx-auto px-4 py-6 text-center text-sm">
-              © {new Date().getFullYear()} Atom Simple. All rights reserved.
+              © {new Date().getFullYear()} Your Company. All rights reserved.
             </div>
           </footer>
         </div>

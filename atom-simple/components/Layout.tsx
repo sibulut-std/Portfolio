@@ -1,4 +1,17 @@
 import Link from 'next/link'
+import React from 'react';
+
+const Layout = ({ children }: { children: React.ReactNode }) => {
+  return (
+    <div className="min-h-screen flex flex-col items-center justify-center bg-gray-50 text-gray-900 dark:bg-gray-900 dark:text-gray-100">
+      {children}
+    </div>
+  );
+};
+
+export default Layout;
+
+
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
