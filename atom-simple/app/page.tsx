@@ -43,7 +43,7 @@ export default function Home() {
           </div>
         </main>
 
-        <footer className="flex gap-6 flex-wrap items-center justify-center text-sm">
+        <footer className="flex gap-6 flex-wrap items-center justify-center text-sm bg-gray-200 p-4 text-center">
           <Link href="/about" className="hover:underline">
             About Us
           </Link>
@@ -56,6 +56,9 @@ export default function Home() {
           <Link href="/privacy" className="hover:underline">
             Privacy Policy
           </Link>
+          <div className="w-full text-center mt-4">
+            © {new Date().getFullYear()} All rights reserved.
+          </div>
         </footer>
       </div>
     </RootLayout>
