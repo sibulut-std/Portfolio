@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
-import Layout from '../components/Layout'
+import RootLayout from '../app/layout'
 import { getCurrentAuthenticatedUser } from '../utils/auth'
 import { getUserMetadata, updateUserMetadata, UserMetadata } from '../utils/dynamodb'
 
@@ -57,11 +57,11 @@ export default function Videos() {
   }
 
   if (!user || !metadata) {
-    return <Layout>Loading...</Layout>
+    return <RootLayout>Loading...</RootLayout>
   }
 
   return (
-    <Layout>
+    <RootLayout>
       <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
         <div className="max-w-2xl w-full space-y-8">
           <h1 className="text-3xl font-bold mb-4 text-center">Videos</h1>
@@ -99,6 +99,6 @@ export default function Videos() {
           </div>
         </div>
       </div>
-    </Layout>
+    </RootLayout>
   )
 }

@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/router'
-import Layout from '../components/Layout'
+import RootLayout from '../app/layout'
 import { signIn, signUp } from '../utils/auth'
 
 export default function Auth() {
@@ -32,7 +32,7 @@ export default function Auth() {
   }
 
   return (
-    <Layout>
+    <RootLayout>
       <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 py-12 px-4 sm:px-6 lg:px-8">
         <div className="max-w-md w-full space-y-8 bg-white p-10 rounded-lg shadow-lg">
           <div>
@@ -98,6 +98,6 @@ export default function Auth() {
           </div>
         </div>
       </div>
-    </Layout>
+    </RootLayout>
   )
 }
