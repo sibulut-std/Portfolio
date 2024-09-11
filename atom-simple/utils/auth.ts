@@ -30,16 +30,22 @@ export async function signIn(email: string, password: string) {
     return user;
   } catch (error) {
     console.error('Error signing in:', error);
-    if (error.code === 'NotAuthorizedException') {
-      throw new Error('Incorrect username or password.');
-    } else if (error.code === 'UserNotFoundException') {
-      throw new Error('User does not exist.');
-    } else if (error.code === 'UserNotConfirmedException') {
-      throw new Error('User is not confirmed. Please confirm your account.');
-    } else if (error.code === 'InvalidParameterException') {
-      throw new Error('Invalid parameters provided. Please check your input.');
+    
+    // Type assertion to handle the error correctly
+    if (error instanceof Error && 'code' in error) {
+      if (error.code === 'NotAuthorizedException') {
+        throw new Error('Incorrect username or password.');
+      } else if (error.code === 'UserNotFoundException') {
+        throw new Error('User does not exist.');
+      } else if (error.code === 'UserNotConfirmedException') {
+        throw new Error('User is not confirmed. Please confirm your account.');
+      } else if (error.code === 'InvalidParameterException') {
+        throw new Error('Invalid parameters provided. Please check your input.');
+      } else {
+        throw new Error('Authentication failed. Please try again.');
+      }
     } else {
-      throw new Error('Authentication failed. Please try again.');
+      throw new Error('An unknown error occurred during authentication.');
     }
   }
 }
