@@ -3,8 +3,9 @@
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import RootLayout from './layout'
+import Sign from './sign'
 import { getCurrentAuthenticatedUser } from '../utils/auth'
-import { getUserMetadata, updateUserMetadata, UserMetadata } from '../utils/dynamodb'
+import { getUserMetadata, updateUserMetadata, UserMetadata } from '../utils/dynamodb';
 
 const videos = [
   { id: 1, title: 'Video 1', url: 'https://www.youtube.com/watch?v=vhb7B3i4r0k' },

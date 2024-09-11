@@ -29,7 +29,7 @@ export default function Home() {
             
             <div className="flex gap-4 items-center justify-center flex-col sm:flex-row">
               <Link
-                href="/auth"
+                href="/sign"
                 className="rounded-full bg-blue-500 text-white px-6 py-2 hover:bg-blue-600 transition-colors"
               >
                 Sign Up / Sign In
