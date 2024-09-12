@@ -76,7 +76,10 @@ export async function signOutUser() {
 export async function getCurrentAuthenticatedUser() {
   try {
     const user = await getCurrentUser();
-    return user;
+    return {
+      username: user.username,
+      // Add any other properties you need from the user object
+    };
   } catch (error) {
     console.error('Error getting current user:', error);
     if (error instanceof Error) {

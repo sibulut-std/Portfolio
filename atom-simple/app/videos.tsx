@@ -25,13 +25,15 @@ export default function Videos() {
     const checkAuth = async () => {
       try {
         const currentUser = await getCurrentAuthenticatedUser()
-        setUser({ email: currentUser.email })
-        const userMetadata = await getUserMetadata(currentUser.email)
+        const userEmail = currentUser.username // Assuming username is the email
+        setUser({ email: userEmail })
+        const userMetadata = await getUserMetadata(userEmail)
         setMetadata(userMetadata)
         if (userMetadata.name) {
           setUser(prevUser => ({ ...prevUser!, name: userMetadata.name }))
         }
       } catch (error) {
+        console.error('Authentication error:', error)
         router.push('/sign')
       }
     }
