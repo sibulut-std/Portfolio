@@ -3,7 +3,6 @@
 import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
 import { DynamoDBDocumentClient, GetCommand, PutCommand } from '@aws-sdk/lib-dynamodb';
 
-// IMPORTANT: Do not hardcode credentials in your code
 const client = new DynamoDBClient({
   region: process.env.AWS_REGION || 'us-west-1',
   credentials: {
@@ -17,16 +16,20 @@ const docClient = DynamoDBDocumentClient.from(client);
 const TABLE_NAME = process.env.DYNAMODB_TABLE_NAME || 'atom-simple-webapp-table';
 
 export type UserMetadata = {
-  userId: string;
+  id: string;
+  user_name_str: string;
   videosWatched: number[];
   totalVideosWatched: number;
   videoRatings: Record<number, number>;
 };
 
-export async function getUserMetadata(userId: string): Promise<UserMetadata> {
+export async function getUserMetadata(id: string, userName: string): Promise<UserMetadata> {
   const command = new GetCommand({
     TableName: TABLE_NAME,
-    Key: { userId },
+    Key: {
+      id: id,
+      user_name_str: userName
+    },
   });
 
   try {
@@ -34,7 +37,8 @@ export async function getUserMetadata(userId: string): Promise<UserMetadata> {
     if (!response.Item) {
       // If the item doesn't exist, return a new user metadata object
       return {
-        userId,
+        id,
+        user_name_str: userName,
         videosWatched: [],
         totalVideosWatched: 0,
         videoRatings: {},
@@ -44,7 +48,11 @@ export async function getUserMetadata(userId: string): Promise<UserMetadata> {
   } catch (error) {
     console.error('Error getting user metadata:', error);
     if (error instanceof Error) {
+      console.error('Full error object:', JSON.stringify(error, null, 2));
+      
       switch (error.name) {
+        case 'ValidationException':
+          throw new Error(`DynamoDB schema mismatch: ${error.message}. Please check your table structure and key usage.`);
         case 'ResourceNotFoundException':
           throw new Error('DynamoDB table not found. Please check your table name and AWS configuration.');
         case 'ProvisionedThroughputExceededException':
@@ -60,11 +68,12 @@ export async function getUserMetadata(userId: string): Promise<UserMetadata> {
   }
 }
 
-export async function updateUserMetadata(userId: string, metadata: Partial<UserMetadata>) {
+export async function updateUserMetadata(id: string, userName: string, metadata: Partial<UserMetadata>) {
   const command = new PutCommand({
     TableName: TABLE_NAME,
     Item: {
-      userId,
+      id,
+      user_name_str: userName,
       ...metadata,
     },
   });
@@ -74,7 +83,11 @@ export async function updateUserMetadata(userId: string, metadata: Partial<UserM
   } catch (error) {
     console.error('Error updating user metadata:', error);
     if (error instanceof Error) {
+      console.error('Full error object:', JSON.stringify(error, null, 2));
+      
       switch (error.name) {
+        case 'ValidationException':
+          throw new Error(`DynamoDB schema mismatch: ${error.message}. Please check your table structure and key usage.`);
         case 'ResourceNotFoundException':
           throw new Error('DynamoDB table not found. Please check your table name and AWS configuration.');
         case 'ProvisionedThroughputExceededException':

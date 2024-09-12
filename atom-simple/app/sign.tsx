@@ -72,7 +72,7 @@ export default function Auth() {
           console.error('DynamoDB error:', dbError);
           setError(`Authentication successful, but there was an error retrieving user data: ${dbError.message}`);
           setIsLoading(false);
-          return; // Prevent navigation to /videos if we can't get user data
+          return; // Prevent navigation to videos if we can't get user data
         }
       }
 

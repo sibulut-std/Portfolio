@@ -52,7 +52,7 @@ export async function signIn(email: string, password: string) {
         case 'InvalidParameterException':
           throw new Error('Invalid parameters provided. Please check your input.');
         default:
-          throw new Error(`Authentication failed (a): ${error.message}`);
+          throw new Error(`Authentication failed: ${error.message}`);
       }
     } else {
       throw new Error('An unknown error occurred during authentication.');
