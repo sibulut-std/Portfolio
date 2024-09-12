@@ -58,9 +58,15 @@ export default function Auth() {
 
     try {
       if (isSignUp) {
-        await signUp(email, password);
-        // After successful sign up, update user metadata with the name
-        await updateUserMetadata(email, email, { name });
+        // Sign up without additional attributes
+        const user = await signUp(email, password); // Only pass email and password
+
+        // Extract the unique username (UUID) from Cognito user pool
+        const userId = user.username;
+
+        // After successful sign up, update user metadata with the UUID and email
+        await updateUserMetadata(userId, email, {});
+
         // Automatically sign in the user after sign up
         await signIn(email, password);
       } else {

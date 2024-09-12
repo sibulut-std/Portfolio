@@ -14,14 +14,13 @@ Amplify.configure({
   },
 });
 
-export const signUp = async (email: string, password: string, name: string) => {
+export const signUp = async (email: string, password: string) => {
   try {
     const { user } = await Auth.signUp({
       username: email,
       password,
       attributes: {
         email, // Required attribute
-        name,  // Custom attribute
       },
     });
     return user;
