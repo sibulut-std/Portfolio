@@ -9,7 +9,6 @@ export default function Auth() {
   const [isSignUp, setIsSignUp] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [name, setName] = useState('');
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(true);
   const router = useRouter();
@@ -68,7 +67,7 @@ export default function Auth() {
       // After successful authentication, try to get user metadata
       try {
         // Use email as username
-        await getUserMetadata(email, 'user_email_str');
+        await getUserMetadata(email);
       } catch (dbError) {
         if (dbError instanceof Error) {
           console.error('DynamoDB error:', dbError);
