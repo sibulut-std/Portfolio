@@ -25,7 +25,7 @@ export default function Videos() {
     const checkAuth = async () => {
       try {
         const currentUser = await getCurrentAuthenticatedUser()
-        const userEmail = currentUser.username // Assuming username is the email
+        const userEmail = currentUser.username // Username is the email
         const userMetadata = await getUserMetadata(userEmail, userEmail)
         setMetadata(userMetadata)
         setUser({ 
