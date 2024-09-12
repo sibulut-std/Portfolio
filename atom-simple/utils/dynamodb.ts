@@ -16,19 +16,18 @@ const docClient = DynamoDBDocumentClient.from(client);
 const TABLE_NAME = process.env.DYNAMODB_TABLE_NAME || 'atom-simple-webapp-table';
 
 export type UserMetadata = {
-  id: string;
-  user_name_str: string;
+  email: string;
+  name?: string;
   videosWatched: number[];
   totalVideosWatched: number;
   videoRatings: Record<number, number>;
 };
 
-export async function getUserMetadata(id: string, userName: string): Promise<UserMetadata> {
+export async function getUserMetadata(email: string): Promise<UserMetadata> {
   const command = new GetCommand({
     TableName: TABLE_NAME,
     Key: {
-      id: id,
-      user_name_str: userName
+      email: email,
     },
   });
 
@@ -37,8 +36,7 @@ export async function getUserMetadata(id: string, userName: string): Promise<Use
     if (!response.Item) {
       // If the item doesn't exist, return a new user metadata object
       return {
-        id,
-        user_name_str: userName,
+        email,
         videosWatched: [],
         totalVideosWatched: 0,
         videoRatings: {},
@@ -68,12 +66,11 @@ export async function getUserMetadata(id: string, userName: string): Promise<Use
   }
 }
 
-export async function updateUserMetadata(id: string, userName: string, metadata: Partial<UserMetadata>) {
+export async function updateUserMetadata(email: string, metadata: Partial<UserMetadata>) {
   const command = new PutCommand({
     TableName: TABLE_NAME,
     Item: {
-      id,
-      user_name_str: userName,
+      email,
       ...metadata,
     },
   });

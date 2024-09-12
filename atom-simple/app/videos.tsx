@@ -12,7 +12,8 @@ const videos = [
 ]
 
 type User = {
-  username: string;
+  email: string;
+  name?: string;
 }
 
 export default function Videos() {
@@ -24,9 +25,12 @@ export default function Videos() {
     const checkAuth = async () => {
       try {
         const currentUser = await getCurrentAuthenticatedUser()
-        setUser({ username: currentUser.username })
-        const userMetadata = await getUserMetadata(currentUser.username)
+        setUser({ email: currentUser.email })
+        const userMetadata = await getUserMetadata(currentUser.email)
         setMetadata(userMetadata)
+        if (userMetadata.name) {
+          setUser(prevUser => ({ ...prevUser!, name: userMetadata.name }))
+        }
       } catch (error) {
         router.push('/sign')
       }
@@ -41,7 +45,7 @@ export default function Videos() {
       videosWatched: [...metadata.videosWatched, videoId],
       totalVideosWatched: metadata.totalVideosWatched + 1,
     }
-    await updateUserMetadata(user.username, updatedMetadata)
+    await updateUserMetadata(user.email, updatedMetadata)
     setMetadata(updatedMetadata)
   }
 
@@ -51,7 +55,7 @@ export default function Videos() {
       ...metadata,
       videoRatings: { ...metadata.videoRatings, [videoId]: rating },
     }
-    await updateUserMetadata(user.username, updatedMetadata)
+    await updateUserMetadata(user.email, updatedMetadata)
     setMetadata(updatedMetadata)
   }
 
@@ -60,42 +64,44 @@ export default function Videos() {
   }
 
   return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-2xl w-full space-y-8">
-          <h1 className="text-3xl font-bold mb-4 text-center">Videos</h1>
-          <p className="mb-4 text-center">Total videos watched: {metadata.totalVideosWatched}</p>
-          <div className="space-y-4">
-            {videos.map((video) => (
-              <div key={video.id} className="border p-4 rounded shadow-md">
-                <h2 className="text-xl font-bold mb-2">{video.title}</h2>
-                <button
-                  onClick={() => handleWatchVideo(video.id)}
-                  className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded transition duration-300 ease-in-out"
-                >
-                  Watch Video
-                </button>
-                <div className="mt-4">
-                  <p className="mb-2">Rate this video:</p>
-                  <div className="flex space-x-2">
-                    {[1, 2, 3, 4, 5].map((rating) => (
-                      <button
-                        key={rating}
-                        onClick={() => handleRateVideo(video.id, rating)}
-                        className={`px-3 py-1 rounded ${
-                          metadata.videoRatings[video.id] === rating
-                            ? 'bg-yellow-500 text-white'
-                            : 'bg-gray-200 hover:bg-gray-300'
-                        } transition duration-300 ease-in-out`}
-                      >
-                        {rating}
-                      </button>
-                    ))}
-                  </div>
+    <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-2xl w-full space-y-8">
+        <h1 className="text-3xl font-bold mb-4 text-center">
+          Welcome, {user.name || user.email}
+        </h1>
+        <p className="mb-4 text-center">Total videos watched: {metadata.totalVideosWatched}</p>
+        <div className="space-y-4">
+          {videos.map((video) => (
+            <div key={video.id} className="border p-4 rounded shadow-md">
+              <h2 className="text-xl font-bold mb-2">{video.title}</h2>
+              <button
+                onClick={() => handleWatchVideo(video.id)}
+                className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded transition duration-300 ease-in-out"
+              >
+                Watch Video
+              </button>
+              <div className="mt-4">
+                <p className="mb-2">Rate this video:</p>
+                <div className="flex space-x-2">
+                  {[1, 2, 3, 4, 5].map((rating) => (
+                    <button
+                      key={rating}
+                      onClick={() => handleRateVideo(video.id, rating)}
+                      className={`px-3 py-1 rounded ${
+                        metadata.videoRatings[video.id] === rating
+                          ? 'bg-yellow-500 text-white'
+                          : 'bg-gray-200 hover:bg-gray-300'
+                      } transition duration-300 ease-in-out`}
+                    >
+                      {rating}
+                    </button>
+                  ))}
                 </div>
               </div>
-            ))}
-          </div>
+            </div>
+          ))}
         </div>
       </div>
+    </div>
   )
 }

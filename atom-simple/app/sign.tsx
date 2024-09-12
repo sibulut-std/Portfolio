@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { signIn, signUp, signOutUser, getCurrentAuthenticatedUser } from '../utils/auth';
-import { getUserMetadata } from '../utils/dynamodb';
+import { getUserMetadata, updateUserMetadata } from '../utils/dynamodb';
 
 export default function Auth() {
   const [isSignUp, setIsSignUp] = useState(false);
@@ -33,7 +33,7 @@ export default function Auth() {
   }, []);
 
   const validateForm = () => {
-    if (!email || !password || (isSignUp && !name)) { // Validate name if signing up
+    if (!email || !password || (isSignUp && !name)) {
       setError('Please fill in all fields.');
       return false;
     }
@@ -59,7 +59,9 @@ export default function Auth() {
     try {
       if (isSignUp) {
         await signUp(email, password);
-        // Optionally, you can automatically sign in the user after sign up
+        // After successful sign up, update user metadata with the name
+        await updateUserMetadata(email, { name });
+        // Automatically sign in the user after sign up
         await signIn(email, password);
       } else {
         await signIn(email, password);
@@ -67,7 +69,7 @@ export default function Auth() {
 
       // After successful authentication, try to get user metadata
       try {
-        await getUserMetadata(email, name); // Pass both email and name
+        await getUserMetadata(email);
       } catch (dbError) {
         if (dbError instanceof Error) {
           console.error('DynamoDB error:', dbError);
@@ -121,7 +123,7 @@ export default function Auth() {
                 onChange={(e) => setEmail(e.target.value)}
               />
             </div>
-            {isSignUp && ( // Add this block to include the name input only during sign up
+            {isSignUp && (
               <div className="mb-4">
                 <label htmlFor="name" className="sr-only">
                   Name

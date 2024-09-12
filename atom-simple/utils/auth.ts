@@ -44,7 +44,7 @@ export async function signIn(email: string, password: string) {
     if (error instanceof Error && 'name' in error) {
       switch (error.name) {
         case 'NotAuthorizedException':
-          throw new Error('Incorrect username or password.');
+          throw new Error('Incorrect email or password.');
         case 'UserNotFoundException':
           throw new Error('User does not exist.');
         case 'UserNotConfirmedException':
