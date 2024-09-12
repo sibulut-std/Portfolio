@@ -18,6 +18,7 @@ const TABLE_NAME = process.env.DYNAMODB_TABLE_NAME || 'atom-simple-webapp-table'
 export type UserMetadata = {
   id: string;
   user_name_str: string;
+  user_email_str: string;
   name?: string;
   videosWatched: number[];
   totalVideosWatched: number;
