@@ -2,6 +2,7 @@
 
 import { Amplify } from 'aws-amplify';
 import { signUp as amplifySignUp, signIn as amplifySignIn, signOut, getCurrentUser } from 'aws-amplify/auth';
+import { Auth } from 'aws-amplify';
 
 Amplify.configure({
   Auth: {
@@ -13,27 +14,21 @@ Amplify.configure({
   },
 });
 
-export async function signUp(email: string, password: string) {
+export const signUp = async (email: string, password: string, name: string) => {
   try {
-    const { isSignUpComplete, userId, nextStep } = await amplifySignUp({
+    const { user } = await Auth.signUp({
       username: email,
       password,
-      options: {
-        userAttributes: {
-          email,
-        },
+      attributes: {
+        email, // Required attribute
+        name,  // Custom attribute
       },
     });
-    return { isSignUpComplete, userId, nextStep };
+    return user;
   } catch (error) {
-    console.error('Error signing up:', error);
-    if (error instanceof Error) {
-      throw new Error(`Sign up failed: ${error.message}`, { cause: error });
-    } else {
-      throw new Error('An unknown error occurred during sign up.');
-    }
+    throw new Error(error.message);
   }
-}
+};
 
 export async function signIn(email: string, password: string) {
   try {
