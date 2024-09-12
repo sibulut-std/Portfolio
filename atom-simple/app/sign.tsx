@@ -66,7 +66,7 @@ export default function Auth() {
 
       // After successful authentication, try to get user metadata
       try {
-        await getUserMetadata(email);
+        await getUserMetadata(user_email_str: string, user_name_str: string);
       } catch (dbError) {
         if (dbError instanceof Error) {
           console.error('DynamoDB error:', dbError);
