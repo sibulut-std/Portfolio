@@ -27,7 +27,7 @@ export default function Videos() {
         const currentUser = await getCurrentAuthenticatedUser()
         const userEmail = currentUser.username // Assuming username is the email
         setUser({ email: userEmail })
-        const userMetadata = await getUserMetadata(userEmail)
+        const userMetadata = await getUserMetadata(userEmail, userEmail)
         setMetadata(userMetadata)
         if (userMetadata.name) {
           setUser(prevUser => ({ ...prevUser!, name: userMetadata.name }))
@@ -47,7 +47,7 @@ export default function Videos() {
       videosWatched: [...metadata.videosWatched, videoId],
       totalVideosWatched: metadata.totalVideosWatched + 1,
     }
-    await updateUserMetadata(user.email, updatedMetadata)
+    await updateUserMetadata(user.email, user.email, updatedMetadata)
     setMetadata(updatedMetadata)
   }
 
@@ -57,7 +57,7 @@ export default function Videos() {
       ...metadata,
       videoRatings: { ...metadata.videoRatings, [videoId]: rating },
     }
-    await updateUserMetadata(user.email, updatedMetadata)
+    await updateUserMetadata(user.email, user.email, updatedMetadata)
     setMetadata(updatedMetadata)
   }
 

@@ -60,7 +60,7 @@ export default function Auth() {
       if (isSignUp) {
         await signUp(email, password);
         // After successful sign up, update user metadata with the name
-        await updateUserMetadata(email, { name });
+        await updateUserMetadata(email, email, { name });
         // Automatically sign in the user after sign up
         await signIn(email, password);
       } else {
@@ -69,7 +69,7 @@ export default function Auth() {
 
       // After successful authentication, try to get user metadata
       try {
-        await getUserMetadata(email);
+        await getUserMetadata(email, email);
       } catch (dbError) {
         if (dbError instanceof Error) {
           console.error('DynamoDB error:', dbError);
