@@ -3,17 +3,39 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { signIn, signUp } from '../utils/auth';
+import { getUserMetadata } from '../utils/dynamodb';
 
 export default function Auth() {
   const [isSignUp, setIsSignUp] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
+
+  const validateForm = () => {
+    if (!email || !password) {
+      setError('Please fill in all fields.');
+      return false;
+    }
+    if (!/\S+@\S+\.\S+/.test(email)) {
+      setError('Please enter a valid email address.');
+      return false;
+    }
+    if (password.length < 8) {
+      setError('Password must be at least 8 characters long.');
+      return false;
+    }
+    return true;
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
+
+    if (!validateForm()) return;
+
+    setIsLoading(true);
 
     try {
       if (isSignUp) {
@@ -23,10 +45,49 @@ export default function Auth() {
       } else {
         await signIn(email, password);
       }
+
+      // After successful authentication, try to get user metadata
+      try {
+        await getUserMetadata(email);
+      } catch (dbError) {
+        if (dbError instanceof Error) {
+          console.error('DynamoDB error:', dbError);
+          setError(`Authentication successful, but there was an error retrieving user data: ${dbError.message}`);
+          setIsLoading(false);
+          return; // Prevent navigation to videos if we can't get user data
+        }
+      }
+
       router.push('/videos');
     } catch (err) {
-      setError('Authentication failed. Please check your credentials and try again.');
-      console.error('Authentication error:', err);
+      if (err instanceof Error) {
+        console.error('Authentication error:', err);
+        
+        // Cognito-specific error handling
+        if (err.name === 'NotAuthorizedException') {
+          setError('Incorrect username or password. Please try again.');
+        } else if (err.name === 'UserNotFoundException') {
+          setError('User does not exist. Please check your email or sign up.');
+        } else if (err.name === 'UserNotConfirmedException') {
+          setError('User is not confirmed. Please check your email for a confirmation link.');
+        } else if (err.name === 'InvalidParameterException') {
+          setError('Invalid email or password format. Please check your input.');
+        } else if (err.name === 'NetworkError') {
+          setError('Network error. Please check your internet connection and try again.');
+        } else if (err.name === 'InvalidPasswordException') {
+          setError('Password does not meet the requirements. It should be at least 8 characters long and include uppercase, lowercase, numbers, and special characters.');
+        } else if (err.name === 'UsernameExistsException') {
+          setError('An account with this email already exists. Please sign in or use a different email.');
+        } else if (err.name === 'LimitExceededException') {
+          setError('Too many attempts. Please try again later.');
+        } else {
+          setError(`Authentication failed: ${err.message}`);
+        }
+      } else {
+        setError('An unknown error occurred. Please try again.');
+      }
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -80,9 +141,10 @@ export default function Auth() {
           <div>
             <button
               type="submit"
-              className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+              className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50"
+              disabled={isLoading}
             >
-              {isSignUp ? 'Sign Up' : 'Sign In'}
+              {isLoading ? 'Processing...' : (isSignUp ? 'Sign Up' : 'Sign In')}
             </button>
           </div>
         </form>
