@@ -81,7 +81,7 @@ export default function Auth() {
         } else if (err.name === 'LimitExceededException') {
           setError('Too many attempts. Please try again later.');
         } else {
-          setError(`Authentication failed: ${err.message}`);
+          setError(`Authentication failed (s): ${err.message}`);
         }
       } else {
         setError('An unknown error occurred. Please try again.');
