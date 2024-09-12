@@ -1,8 +1,8 @@
 'use client'
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { signIn, signUp } from '../utils/auth';
+import { signIn, signUp, signOutUser, getCurrentAuthenticatedUser } from '../utils/auth';
 import { getUserMetadata } from '../utils/dynamodb';
 
 export default function Auth() {
@@ -10,8 +10,26 @@ export default function Auth() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const router = useRouter();
+
+  useEffect(() => {
+    const checkAndSignOut = async () => {
+      try {
+        const currentUser = await getCurrentAuthenticatedUser();
+        if (currentUser) {
+          await signOutUser();
+        }
+      } catch (error) {
+        // If there's no current user, getCurrentAuthenticatedUser will throw an error
+        // We can ignore this error as it means there's no user to sign out
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    checkAndSignOut();
+  }, []);
 
   const validateForm = () => {
     if (!email || !password) {
@@ -54,7 +72,7 @@ export default function Auth() {
           console.error('DynamoDB error:', dbError);
           setError(`Authentication successful, but there was an error retrieving user data: ${dbError.message}`);
           setIsLoading(false);
-          return; // Prevent navigation to videos if we can't get user data
+          return; // Prevent navigation to /videos if we can't get user data
         }
       }
 
@@ -62,27 +80,7 @@ export default function Auth() {
     } catch (err) {
       if (err instanceof Error) {
         console.error('Authentication error:', err);
-        
-        // Cognito-specific error handling
-        if (err.name === 'NotAuthorizedException') {
-          setError('Incorrect username or password. Please try again.');
-        } else if (err.name === 'UserNotFoundException') {
-          setError('User does not exist. Please check your email or sign up.');
-        } else if (err.name === 'UserNotConfirmedException') {
-          setError('User is not confirmed. Please check your email for a confirmation link.');
-        } else if (err.name === 'InvalidParameterException') {
-          setError('Invalid email or password format. Please check your input.');
-        } else if (err.name === 'NetworkError') {
-          setError('Network error. Please check your internet connection and try again.');
-        } else if (err.name === 'InvalidPasswordException') {
-          setError('Password does not meet the requirements. It should be at least 8 characters long and include uppercase, lowercase, numbers, and special characters.');
-        } else if (err.name === 'UsernameExistsException') {
-          setError('An account with this email already exists. Please sign in or use a different email.');
-        } else if (err.name === 'LimitExceededException') {
-          setError('Too many attempts. Please try again later.');
-        } else {
-          setError(`Authentication failed (s): ${err.message}`);
-        }
+        setError(`Authentication failed: ${err.message}`);
       } else {
         setError('An unknown error occurred. Please try again.');
       }
@@ -90,6 +88,10 @@ export default function Auth() {
       setIsLoading(false);
     }
   };
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 py-12 px-4 sm:px-6 lg:px-8">
