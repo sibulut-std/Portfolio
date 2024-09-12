@@ -13,7 +13,7 @@ const videos = [
 
 type User = {
   email: string;
-  name?: string;
+  name: string;
 }
 
 export default function Videos() {
@@ -26,12 +26,12 @@ export default function Videos() {
       try {
         const currentUser = await getCurrentAuthenticatedUser()
         const userEmail = currentUser.username // Assuming username is the email
-        setUser({ email: userEmail })
         const userMetadata = await getUserMetadata(userEmail, userEmail)
         setMetadata(userMetadata)
-        if (userMetadata.name) {
-          setUser(prevUser => ({ ...prevUser!, name: userMetadata.name }))
-        }
+        setUser({ 
+          email: userEmail, 
+          name: userMetadata.user_name_str || userEmail 
+        })
       } catch (error) {
         console.error('Authentication error:', error)
         router.push('/sign')
@@ -69,7 +69,7 @@ export default function Videos() {
     <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-2xl w-full space-y-8">
         <h1 className="text-3xl font-bold mb-4 text-center">
-          Welcome, {user.name || user.email}
+          Welcome, {user.name}
         </h1>
         <p className="mb-4 text-center">Total videos watched: {metadata.totalVideosWatched}</p>
         <div className="space-y-4">
