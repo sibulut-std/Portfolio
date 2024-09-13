@@ -1,3 +1,5 @@
+// pages/videos.tsx
+
 'use client'
 
 import { useEffect, useState } from 'react'
@@ -26,7 +28,19 @@ export default function Videos() {
       try {
         const currentUser = await getCurrentAuthenticatedUser()
         const userMetadata = await getUserMetadata(currentUser.userId, currentUser.email)
-        setMetadata(userMetadata)
+        
+        // Update user metadata with full name if it's not already set
+        if (!userMetadata.user_fullName_str) {
+          const updatedMetadata = {
+            ...userMetadata,
+            user_fullName_str: currentUser.fullName
+          }
+          await updateUserMetadata(currentUser.userId, currentUser.email, updatedMetadata)
+          setMetadata(updatedMetadata)
+        } else {
+          setMetadata(userMetadata)
+        }
+        
         setUser({ 
           email: currentUser.email, 
           fullName: userMetadata.user_fullName_str || currentUser.fullName || currentUser.email 
