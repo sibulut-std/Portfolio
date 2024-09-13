@@ -25,12 +25,11 @@ export default function Videos() {
     const checkAuth = async () => {
       try {
         const currentUser = await getCurrentAuthenticatedUser()
-        const userEmail = currentUser.username // Username is the email
-        const userMetadata = await getUserMetadata(userEmail, userEmail)
+        const userMetadata = await getUserMetadata(currentUser.userId, currentUser.email)
         setMetadata(userMetadata)
         setUser({ 
-          email: userEmail, 
-          fullName: userMetadata.user_fullName_str || userEmail 
+          email: currentUser.email,
+          fullName: currentUser.fullName
         })
       } catch (error) {
         console.error('Authentication error:', error)
@@ -47,7 +46,7 @@ export default function Videos() {
       videosWatched: [...metadata.videosWatched, videoId],
       totalVideosWatched: metadata.totalVideosWatched + 1,
     }
-    await updateUserMetadata(user.email, user.email, updatedMetadata)
+    await updateUserMetadata(metadata.id, metadata.user_name_str, updatedMetadata)
     setMetadata(updatedMetadata)
   }
 
@@ -57,7 +56,7 @@ export default function Videos() {
       ...metadata,
       videoRatings: { ...metadata.videoRatings, [videoId]: rating },
     }
-    await updateUserMetadata(user.email, user.email, updatedMetadata)
+    await updateUserMetadata(metadata.id, metadata.user_name_str, updatedMetadata)
     setMetadata(updatedMetadata)
   }
 
@@ -69,7 +68,7 @@ export default function Videos() {
     <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-2xl w-full space-y-8">
         <h1 className="text-3xl font-bold mb-4 text-center">
-          Welcome, {user.fullName}
+          Welcome, {user.fullName}!
         </h1>
         <p className="mb-4 text-center">Total videos watched: {metadata.totalVideosWatched}</p>
         <h2 className="text-2xl font-semibold mb-6 text-center text-blue-800">Featured Interactive Stories</h2>

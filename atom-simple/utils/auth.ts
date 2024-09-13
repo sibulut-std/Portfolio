@@ -1,7 +1,7 @@
 // utils/auth.ts
 
 import { Amplify } from 'aws-amplify';
-import { signUp as amplifySignUp, signIn as amplifySignIn, signOut, getCurrentUser, SignUpOutput, AuthUser } from 'aws-amplify/auth';
+import { signUp as amplifySignUp, signIn as amplifySignIn, signOut, getCurrentUser, fetchUserAttributes, AuthUser } from 'aws-amplify/auth';
 
 Amplify.configure({
   Auth: {
@@ -13,9 +13,9 @@ Amplify.configure({
   },
 });
 
-export const signUp = async (email: string, password: string, fullName: string): Promise<SignUpOutput> => {
+export const signUp = async (email: string, password: string, fullName: string): Promise<AuthUser> => {
   try {
-    const signUpOutput = await amplifySignUp({
+    const { user } = await amplifySignUp({
       username: email,
       password,
       options: {
@@ -25,7 +25,7 @@ export const signUp = async (email: string, password: string, fullName: string):
         },
       },
     });
-    return signUpOutput;
+    return user;
   } catch (error) {
     if (error instanceof Error) {
       throw new Error(error.message);
@@ -75,10 +75,13 @@ export async function signOutUser() {
 
 export async function getCurrentAuthenticatedUser() {
   try {
-    const user: AuthUser = await getCurrentUser();
+    const user = await getCurrentUser();
+    const attributes = await fetchUserAttributes();
     return {
       username: user.username,
       userId: user.userId,
+      fullName: attributes.name || user.username,
+      email: attributes.email || user.username,
     };
   } catch (error) {
     console.error('Error getting current user:', error);
