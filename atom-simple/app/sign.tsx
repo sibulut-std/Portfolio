@@ -72,15 +72,19 @@ export default function Auth() {
         await signIn(email, password);
 
         // After successful sign in, update user metadata
-        const userId = email; // Using email as userId for simplicity
-        await updateUserMetadata(userId, email, { user_name_str: email, user_fullName_str: name });
+        const currentUser = await getCurrentAuthenticatedUser();
+        await updateUserMetadata(currentUser.userId, email, {
+          user_name_str: email,
+          user_fullName_str: name
+        });
       } else {
         await signIn(email, password);
       }
 
       // After successful authentication, try to get user metadata
       try {
-        await getUserMetadata(email, email);
+        const currentUser = await getCurrentAuthenticatedUser();
+        await getUserMetadata(currentUser.userId, email);
       } catch (dbError) {
         console.error('DynamoDB error:', dbError);
         setError('Authentication successful, but there was an error retrieving user data. Please try again.');

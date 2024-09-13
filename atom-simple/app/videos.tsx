@@ -28,8 +28,8 @@ export default function Videos() {
         const userMetadata = await getUserMetadata(currentUser.userId, currentUser.email)
         setMetadata(userMetadata)
         setUser({ 
-          email: currentUser.email,
-          fullName: currentUser.fullName
+          email: currentUser.email, 
+          fullName: userMetadata.user_fullName_str || currentUser.fullName || currentUser.email 
         })
       } catch (error) {
         console.error('Authentication error:', error)
