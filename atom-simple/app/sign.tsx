@@ -82,14 +82,11 @@ export default function Auth() {
       }
 
       // After successful authentication, try to get user metadata
-      try {
-        const currentUser = await getCurrentAuthenticatedUser();
-        await getUserMetadata(currentUser.userId, email);
-      } catch (dbError) {
-        console.error('DynamoDB error:', dbError);
-        setError('Authentication successful, but there was an error retrieving user data. Please try again.');
-        setIsLoading(false);
-        return; // Prevent navigation to videos if we can't get user data
+      const currentUser = await getCurrentAuthenticatedUser();
+      const userMetadata = await getUserMetadata(currentUser.userId, email);
+
+      if (!userMetadata) {
+        throw new Error('User metadata not found');
       }
 
       router.push('/videos');
