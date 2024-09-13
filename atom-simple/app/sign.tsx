@@ -193,6 +193,7 @@ export default function Auth() {
             {isSignUp ? 'Already have an account? Sign In' : "Don't have an account? Sign Up"}
           </button>
         </div>
+        <div className="text-center mt-4 text-sm text-gray-600">Sign up/in is managed by Amazon Cognito user pool.</div>
       </div>
     </div>
   );
