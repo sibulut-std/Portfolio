@@ -86,6 +86,7 @@ export default function Videos() {
         </h1>
         <p className="mb-4 text-center">Total videos watched: {metadata.totalVideosWatched}</p>
         <h2 className="text-2xl font-semibold mb-6 text-center text-blue-800">Featured Interactive Stories</h2>
+        <div className="text-center mt-4 text-sm text-gray-600">User metadata is stored in Amazon DynamoDB tables in AWS.</div>
         <div className="space-y-4">
           {videos.map((video) => (
             <div key={video.id} className="border p-4 rounded shadow-md">
