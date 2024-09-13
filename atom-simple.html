@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Projects">
+    <title>Projects</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .thumbnail-container {
+            text-align: center;
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+
+        .thumbnail-container img {
+            cursor: pointer;
+            width: 400px;
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Projects</h1>
+        <a href="index.html">Back to Home</a>
+    </header>
+
+    <div class="wrapper">
+        <section id="projects">
+            <h2>Featured Projects</h2>
+            <ul>
+                <li>
+                    <h3>Atom Simple</h3>
+
+                    <!-- Thumbnail image linked to the Atom Simple site -->
+                    <div class="thumbnail-container">
+                        <a href="https://main.d24kb0jn78mx95.amplifyapp.com/" target="_blank">
+                            <img src="assets/AtomSimple_Site.png" alt="Atom Simple Site">
+                        </a>
+                    </div>
+
+                    <p>This site is a simplified version of a children's interactive book project, showcasing user registration, sign-up, and sign-in using Amazon Cognito. Upon authentication, users can access interactive stories, with their interactions logged in a DynamoDB table. The web app is deployed via AWS Amplify, demonstrating seamless integration of AWS services for user management and data tracking.</p>
+                    <a href="index.html">Back to Home</a>
+                </li>
+            </ul>
+        </section>
+    </div>
+
+    <footer>
+        <p>© 2024</p>
+    </footer>
+</body>
+</html>
