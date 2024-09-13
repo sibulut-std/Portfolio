@@ -58,7 +58,7 @@ export default function Videos() {
     const updatedMetadata: UserMetadata = {
       ...metadata,
       videosWatched: [...metadata.videosWatched, videoId],
-      totalVideosWatched: metadata.totalVideosWatched + 1,
+      vwCount: metadata.vwCount + 1,
     }
     await updateUserMetadata(metadata.id, metadata.user_name_str, updatedMetadata)
     setMetadata(updatedMetadata)
@@ -84,7 +84,7 @@ export default function Videos() {
         <h1 className="text-3xl font-bold mb-4 text-center">
           Welcome, {user.fullName}!
         </h1>
-        <p className="mb-4 text-center">Total videos watched: {metadata.totalVideosWatched}</p>
+        <p className="mb-4 text-center">Total videos watched: {metadata.vwCount}</p>
         <h2 className="text-2xl font-semibold mb-6 text-center text-blue-800">Featured Interactive Stories</h2>
         <div className="text-center mt-4 text-sm text-gray-600">User metadata is stored in Amazon DynamoDB tables in AWS.</div>
         <div className="space-y-4">

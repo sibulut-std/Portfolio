@@ -20,7 +20,7 @@ export type UserMetadata = {
   user_name_str: string;
   userFullName: string;
   videosWatched: number[];
-  totalVideosWatched: number;
+  vwCount: number;  // total number of videos watched by a user
   videoRatings: Record<number, number>;
 };
 
@@ -41,8 +41,8 @@ export async function getUserMetadata(id: string, user_name_str: string): Promis
         id,
         user_name_str,
         userFullName: '',
+        vwCount: 0,
         videosWatched: [],
-        totalVideosWatched: 0,
         videoRatings: {},
       };
     }
