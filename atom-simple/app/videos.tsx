@@ -30,7 +30,7 @@ export default function Videos() {
         setMetadata(userMetadata)
         setUser({ 
           email: userEmail, 
-          fullName: userMetadata.user_fullName_str || currentUser.attributes?.name || userEmail 
+          fullName: userMetadata.user_fullName_str || userEmail 
         })
       } catch (error) {
         console.error('Authentication error:', error)
