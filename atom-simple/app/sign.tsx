@@ -62,7 +62,7 @@ export default function Auth() {
         const signUpOutput: SignUpOutput = await signUp(email, password);
         
         // Check if further action is needed (e.g., confirmation)
-        if (signUpOutput.nextStep.signUpStep !== 'COMPLETE') {
+        if (signUpOutput.nextStep.signUpStep !== 'DONE') {
           setError(`Sign up requires further action: ${signUpOutput.nextStep.signUpStep}`);
           setIsLoading(false);
           return;

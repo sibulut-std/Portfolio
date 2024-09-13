@@ -1,7 +1,7 @@
 // utils/auth.ts
 
 import { Amplify } from 'aws-amplify';
-import { signUp as amplifySignUp, signIn as amplifySignIn, signOut, getCurrentUser } from 'aws-amplify/auth';
+import { signUp as amplifySignUp, signIn as amplifySignIn, signOut, getCurrentUser, SignUpOutput } from 'aws-amplify/auth';
 
 Amplify.configure({
   Auth: {
@@ -13,13 +13,13 @@ Amplify.configure({
   },
 });
 
-export const signUp = async (email: string, password: string) => {
+export const signUp = async (email: string, password: string): Promise<SignUpOutput> => {
   try {
     const signUpOutput = await amplifySignUp({
       username: email,
       password,
       attributes: {
-        email, // Required attribute
+        email,  // Required attribute
       },
     });
     return signUpOutput;
