@@ -60,7 +60,7 @@ export default function Videos() {
       videosWatched: [...metadata.videosWatched, videoId],
       totalVideosWatched: metadata.totalVideosWatched + 1,
     }
-    await updateUserMetadata(metadata.id, metadata.username_str, updatedMetadata)
+    await updateUserMetadata(metadata.id, metadata.user_name_str, updatedMetadata)
     setMetadata(updatedMetadata)
   }
 
@@ -70,7 +70,7 @@ export default function Videos() {
       ...metadata,
       videoRatings: { ...metadata.videoRatings, [videoId]: rating },
     }
-    await updateUserMetadata(metadata.id, metadata.username_str, updatedMetadata)
+    await updateUserMetadata(metadata.id, metadata.user_name_str, updatedMetadata)
     setMetadata(updatedMetadata)
   }
 
