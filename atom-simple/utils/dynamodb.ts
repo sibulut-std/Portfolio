@@ -17,19 +17,19 @@ const TABLE_NAME = process.env.DYNAMODB_TABLE_NAME || 'atom-simple-webapp-table'
 
 export type UserMetadata = {
   id: string;
-  user_name_str: string;
+  username_str: string;
   user_fullName_str: string;
   videosWatched: number[];
   totalVideosWatched: number;
   videoRatings: Record<number, number>;
 };
 
-export async function getUserMetadata(id: string, user_name_str: string): Promise<UserMetadata> {
+export async function getUserMetadata(id: string, username_str: string): Promise<UserMetadata> {
   const command = new GetCommand({
     TableName: TABLE_NAME,
     Key: {
       id,
-      user_name_str
+      username_str
     },
   });
 
@@ -39,7 +39,7 @@ export async function getUserMetadata(id: string, user_name_str: string): Promis
       // If the item doesn't exist, return a new user metadata object
       return {
         id,
-        user_name_str,
+        username_str,
         user_fullName_str: '',
         videosWatched: [],
         totalVideosWatched: 0,
@@ -70,12 +70,12 @@ export async function getUserMetadata(id: string, user_name_str: string): Promis
   }
 }
 
-export async function updateUserMetadata(id: string, user_name_str: string, metadata: Partial<UserMetadata>) {
+export async function updateUserMetadata(id: string, username_str: string, metadata: Partial<UserMetadata>) {
   const command = new PutCommand({
     TableName: TABLE_NAME,
     Item: {
       id,
-      user_name_str,
+      username_str,
       ...metadata,
     },
   });
