@@ -13,7 +13,7 @@ Amplify.configure({
   },
 });
 
-export const signUp = async (email: string, password: string): Promise<SignUpOutput> => {
+export const signUp = async (email: string, password: string, fullName: string): Promise<SignUpOutput> => {
   try {
     const signUpOutput = await amplifySignUp({
       username: email,
@@ -21,6 +21,7 @@ export const signUp = async (email: string, password: string): Promise<SignUpOut
       options: {
         userAttributes: {
           email,
+          name: fullName,
         },
       },
     });
@@ -77,7 +78,7 @@ export async function getCurrentAuthenticatedUser() {
     const user = await getCurrentUser();
     return {
       username: user.username,
-      // Add any other properties you need from the user object
+      attributes: user.attributes,
     };
   } catch (error) {
     console.error('Error getting current user:', error);

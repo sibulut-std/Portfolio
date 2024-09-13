@@ -59,7 +59,7 @@ export default function Auth() {
 
     try {
       if (isSignUp) {
-        const signUpOutput: SignUpOutput = await signUp(email, password);
+        const signUpOutput: SignUpOutput = await signUp(email, password, name);
         
         // Check if further action is needed (e.g., confirmation)
         if (signUpOutput.nextStep.signUpStep !== 'DONE') {
@@ -73,7 +73,7 @@ export default function Auth() {
 
         // After successful sign in, update user metadata
         const userId = email; // Using email as userId for simplicity
-        await updateUserMetadata(userId, email, { user_name_str: name || email });
+        await updateUserMetadata(userId, email, { user_name_str: email, user_fullName_str: name });
       } else {
         await signIn(email, password);
       }

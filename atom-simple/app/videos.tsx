@@ -13,7 +13,7 @@ const videos = [
 
 type User = {
   email: string;
-  name: string;
+  fullName: string;
 }
 
 export default function Videos() {
@@ -30,7 +30,7 @@ export default function Videos() {
         setMetadata(userMetadata)
         setUser({ 
           email: userEmail, 
-          name: userMetadata.user_name_str || userEmail 
+          fullName: userMetadata.user_fullName_str || currentUser.attributes?.name || userEmail 
         })
       } catch (error) {
         console.error('Authentication error:', error)
@@ -69,7 +69,7 @@ export default function Videos() {
     <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-2xl w-full space-y-8">
         <h1 className="text-3xl font-bold mb-4 text-center">
-          Welcome, {user.name}
+          Welcome, {user.fullName}
         </h1>
         <p className="mb-4 text-center">Total videos watched: {metadata.totalVideosWatched}</p>
         <h2 className="text-2xl font-semibold mb-6 text-center text-blue-800">Featured Interactive Stories</h2>

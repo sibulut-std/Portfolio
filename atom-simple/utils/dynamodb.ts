@@ -18,7 +18,7 @@ const TABLE_NAME = process.env.DYNAMODB_TABLE_NAME || 'atom-simple-webapp-table'
 export type UserMetadata = {
   id: string;
   user_name_str: string;
-  name?: string;
+  user_fullName_str: string;
   videosWatched: number[];
   totalVideosWatched: number;
   videoRatings: Record<number, number>;
@@ -40,6 +40,7 @@ export async function getUserMetadata(id: string, user_name_str: string): Promis
       return {
         id,
         user_name_str,
+        user_fullName_str: '',
         videosWatched: [],
         totalVideosWatched: 0,
         videoRatings: {},
