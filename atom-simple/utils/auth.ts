@@ -18,8 +18,10 @@ export const signUp = async (email: string, password: string): Promise<SignUpOut
     const signUpOutput = await amplifySignUp({
       username: email,
       password,
-      attributes: {
-        email,  // Required attribute
+      options: {
+        userAttributes: {
+          email,
+        },
       },
     });
     return signUpOutput;
