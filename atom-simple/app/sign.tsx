@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { signIn, signUp, signOutUser, getCurrentAuthenticatedUser } from '../utils/auth';
 import { getUserMetadata, updateUserMetadata } from '../utils/dynamodb';
+import { SignUpOutput } from 'aws-amplify/auth';
 
 export default function Auth() {
   const [isSignUp, setIsSignUp] = useState(false);
@@ -58,17 +59,21 @@ export default function Auth() {
 
     try {
       if (isSignUp) {
-        // Sign up without additional attributes
-        const user = await signUp(email, password); // Only pass email and password
+        const signUpOutput: SignUpOutput = await signUp(email, password);
+        
+        // Check if further action is needed (e.g., confirmation)
+        if (signUpOutput.nextStep.signUpStep !== 'COMPLETE') {
+          setError(`Sign up requires further action: ${signUpOutput.nextStep.signUpStep}`);
+          setIsLoading(false);
+          return;
+        }
 
-        // Extract the unique username (UUID) from Cognito user pool
-        const userId = user.username;
-
-        // After successful sign up, update user metadata with the UUID and email
-        await updateUserMetadata(userId, email, {});
-
-        // Automatically sign in the user after sign up
+        // If sign up is complete, proceed with sign in
         await signIn(email, password);
+
+        // After successful sign in, update user metadata
+        const userId = email; // Using email as userId for simplicity
+        await updateUserMetadata(userId, email, { user_name_str: name || email });
       } else {
         await signIn(email, password);
       }
@@ -77,18 +82,16 @@ export default function Auth() {
       try {
         await getUserMetadata(email, email);
       } catch (dbError) {
-        if (dbError instanceof Error) {
-          console.error('DynamoDB error:', dbError);
-          setError(`Authentication successful, but there was an error retrieving user data: ${dbError.message}`);
-          setIsLoading(false);
-          return; // Prevent navigation to videos if we can't get user data
-        }
+        console.error('DynamoDB error:', dbError);
+        setError('Authentication successful, but there was an error retrieving user data. Please try again.');
+        setIsLoading(false);
+        return; // Prevent navigation to videos if we can't get user data
       }
 
       router.push('/videos');
     } catch (err) {
+      console.error('Authentication error:', err);
       if (err instanceof Error) {
-        console.error('Authentication error:', err);
         setError(`Authentication failed: ${err.message}`);
       } else {
         setError('An unknown error occurred. Please try again.');

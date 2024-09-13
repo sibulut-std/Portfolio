@@ -15,16 +15,20 @@ Amplify.configure({
 
 export const signUp = async (email: string, password: string) => {
   try {
-    const { user } = await amplifySignUp({
+    const signUpOutput = await amplifySignUp({
       username: email,
       password,
       attributes: {
         email, // Required attribute
       },
     });
-    return user;
+    return signUpOutput;
   } catch (error) {
-    throw new Error(error.message);
+    if (error instanceof Error) {
+      throw new Error(error.message);
+    } else {
+      throw new Error('An unknown error occurred during sign up.');
+    }
   }
 };
 
