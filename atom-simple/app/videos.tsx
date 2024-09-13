@@ -30,10 +30,10 @@ export default function Videos() {
         const userMetadata = await getUserMetadata(currentUser.userId, currentUser.email)
         
         // Update user metadata with full name if it's not already set
-        if (!userMetadata.user_fullName_str) {
+        if (!userMetadata.userFullName) {
           const updatedMetadata = {
             ...userMetadata,
-            user_fullName_str: currentUser.fullName
+            userFullName: currentUser.fullName
           }
           await updateUserMetadata(currentUser.userId, currentUser.email, updatedMetadata)
           setMetadata(updatedMetadata)
@@ -43,7 +43,7 @@ export default function Videos() {
         
         setUser({ 
           email: currentUser.email, 
-          fullName: userMetadata.user_fullName_str || currentUser.fullName || currentUser.email 
+          fullName: userMetadata.userFullName || currentUser.fullName || currentUser.email 
         })
       } catch (error) {
         console.error('Authentication error:', error)

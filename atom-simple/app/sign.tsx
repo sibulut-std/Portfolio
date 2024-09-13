@@ -75,7 +75,7 @@ export default function Auth() {
         const currentUser = await getCurrentAuthenticatedUser();
         await updateUserMetadata(currentUser.userId, email, {
           user_name_str: email,
-          user_fullName_str: name
+          userFullName: name
         });
       } else {
         await signIn(email, password);
