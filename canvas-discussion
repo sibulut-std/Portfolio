@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visualizing Canvas Discussion Interactions</title>
+</head>
+<body>
+    <h1>Visualizing Canvas Discussion Interactions</h1>
+    <img src="vdi-1.png" alt="Visualizing Discussion Interactions 1" width="1200">
+    <img src="vdi-2.png" alt="Visualizing Discussion Interactions 2" width="1200">
+    <img src="vdi-3.png" alt="Visualizing Discussion Interactions 3" width="1200">
+</body>
+</html>
