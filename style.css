@@ -4,73 +4,122 @@ body {
     padding: 0;
     background-color: #f4f4f4;
     color: #333;
+    line-height: 1.6;
 }
 
 header {
-    background-color: #87CEEB; /* Sky Blue */
+    background-color: #87CEEB;
     color: #fff;
-    padding: 1rem;
+    padding: 2rem 1rem;
     text-align: center;
 }
 
-header a {
-    color: #fff;
-    text-decoration: underline;
+header h1 {
+    margin: 0;
+    font-size: 2.5rem;
 }
 
-header a:hover {
-    color: #333; /* Change link color on hover for better contrast */
+header h2 {
+    margin: 0.5rem 0 0;
+    font-size: 1.2rem;
+    font-weight: normal;
+}
+
+nav {
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
 nav ul {
     list-style-type: none;
     padding: 0;
-    text-align: center;
+    margin: 0;
+    display: flex;
+    justify-content: center;
 }
 
 nav ul li {
-    display: inline;
-    margin-right: 1rem;
+    margin: 0 1rem;
 }
 
 nav ul li a {
+    display: block;
+    padding: 1rem;
     text-decoration: none;
     color: #333;
+    transition: color 0.3s ease;
+}
+
+nav ul li a:hover {
+    color: #87CEEB;
+}
+
+.wrapper {
+    width: 80%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem 1rem;
 }
 
 section {
-    padding: 2rem;
+    margin-bottom: 3rem;
 }
 
-h1, h2, h3 {
+h2 {
     color: #333;
+    border-bottom: 2px solid #87CEEB;
+    padding-bottom: 0.5rem;
+}
+
+.project-list article {
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.project-list h3 {
+    margin-top: 0;
+    color: #87CEEB;
+}
+
+.keywords {
+    font-size: 0.9rem;
+    color: #666;
+    margin-bottom: 1rem;
+}
+
+a {
+    color: #0066cc;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+a:hover {
+    color: #004080;
+    text-decoration: underline;
 }
 
 footer {
     text-align: center;
     padding: 1rem;
-    background-color: #87CEEB; /* Sky Blue */
+    background-color: #87CEEB;
     color: #fff;
-    position: fixed;
+    position: relative;
     width: 100%;
-    bottom: 0;
 }
 
-footer a {
-    color: #fff;
-    text-decoration: underline;
-}
-
-footer a:hover {
-    color: #333; /* Change link color on hover for better contrast */
-}
-
-a {
-    color: #0066cc;
-}
-
-.wrapper {
-    width: 60%; /* Make the content area 60% of the viewport width */
-    margin: 0 auto; /* Center the content */
-    padding: 0 1rem; /* Add some padding on the sides */
+@media (max-width: 768px) {
+    .wrapper {
+        width: 95%;
+    }
+    
+    header h1 {
+        font-size: 2rem;
+    }
+    
+    header h2 {
+        font-size: 1rem;
+    }
 }
