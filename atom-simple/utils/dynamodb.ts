@@ -4,16 +4,16 @@ import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
 import { DynamoDBDocumentClient, GetCommand, PutCommand } from '@aws-sdk/lib-dynamodb';
 
 const client = new DynamoDBClient({
-  region: process.env.AWS_REGION || 'us-west-1',
+  region: process.env.APP_REGION,
   credentials: {
-    accessKeyId: process.env.AWS_ACCESS_KEY_ID || 'AKIASNXG6I6CDXJ2Y7PQ',
-    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY || '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',
+    accessKeyId: process.env.APP_ACCESS_KEY_ID,
+    secretAccessKey: process.env.APP_SECRET_ACCESS_KEY,
   },
 });
 
 const docClient = DynamoDBDocumentClient.from(client);
 
-const TABLE_NAME = process.env.DYNAMODB_TABLE_NAME || 'atom-simple-webapp-table';
+const TABLE_NAME = process.env.DYNAMODB_TABLE_NAME;
 
 export type UserMetadata = {
   id: string;

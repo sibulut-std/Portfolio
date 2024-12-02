@@ -6,9 +6,9 @@ import { signUp as amplifySignUp, signIn as amplifySignIn, signOut, getCurrentUs
 Amplify.configure({
   Auth: {
     Cognito: {
-      userPoolId: 'us-west-1_JFYogeWyV',
-      userPoolClientId: '4tu1jhb0bo762g1k5ra5l1e40p',
-      identityPoolId: 'us-west-1:f321bc60-ae42-4d1b-a9a1-e684e4bca005',
+      userPoolId: process.env.USER_POOL_ID,
+      userPoolClientId: process.env.USER_POOL_CLIENT_ID,
+      identityPoolId: process.env.IDENTITY_POOL_ID,
     }
   },
 });
