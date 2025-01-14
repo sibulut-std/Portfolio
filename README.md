@@ -14,4 +14,3 @@ Featured projects shared with public.
 
 Feel free to reach out to me via [email](mailto:sibulut@outlook.com) or connect with me on [LinkedIn](https://linkedin.com/in/sibulut).
 
-
